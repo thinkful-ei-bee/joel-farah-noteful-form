@@ -27,7 +27,7 @@ class AddFolder extends React.Component {
         <section className="main-layout">
 
           <div className="left-menu">
-            
+            <FolderList />
           </div>
 
           <div className="right-content">
