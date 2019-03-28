@@ -13,7 +13,7 @@ export default class NoteList extends Component {
 
       <>
         <ul className="notes-list">
-          {this.props.notes.map(note =>
+          {notes.map(note =>
             <li key={note.id}>
               <Link to={`/notes/${note.id}`}>
                 {note.name}

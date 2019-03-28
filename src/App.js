@@ -43,9 +43,7 @@ class App extends Component {
         this.setState( {[stateKey]: { id: response.id, name: apiBody.name}} );
       }
     })
-    
     .catch(error => console.error('Error:', error));
-
   }
   handleDeleteNote(id) {
     // console.log(id);
