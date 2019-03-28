@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Switch } from 'react-router-dom';
 import './App.css';
-import { browserHistory }  from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import NoteContext from './context/NoteContext';
 import Header from './component/header/header';
 import HomePage from './component/homepage/homepage';
@@ -33,6 +33,15 @@ class App extends Component {
       if(method !== 'DELETE' && method !== 'POST') {
         this.setState( {[stateKey]: response} );
       } 
+      if(method === 'POST') {
+        console.log(`stateKey: ${stateKey} id: ${response.id} name: ${apiBody.name}`);
+        
+        this.setState({ 
+          folders: { [stateKey]: response.id, name: apiBody.name },
+        })
+
+        this.setState( {[stateKey]: { id: response.id, name: apiBody.name}} );
+      }
     })
     
     .catch(error => console.error('Error:', error));
@@ -58,9 +67,9 @@ class App extends Component {
     let body = { name: e.currentTarget.newFolder.value };
     console.log(JSON.stringify(body));
     // add to api
-    this.fetchApi('folders', '', 'POST', body);
+    this.fetchApi('folders', 'folders', 'POST', body);
     // redirect
-
+    this.props.history.push('/');
   }
   render() {
     return (
@@ -88,4 +97,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
