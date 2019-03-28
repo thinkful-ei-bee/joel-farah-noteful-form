@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import './App.css';
 import { browserHistory }  from 'react-router-dom';
 import NoteContext from './context/NoteContext';
@@ -7,12 +8,7 @@ import Header from './component/header/header';
 import HomePage from './component/homepage/homepage';
 import Folder from './component/Folder/Folder';
 import Note from './component/Note/Note';
-
-// as a last resort .. 
-// import { browserHistory } from 'react-router'
-// this.setState({destination: "/"})
-// ...
-// if (this.state.destination) return <Redirect ...></Redirect>
+import AddFolder from './component/AddFolder/AddFolder'
 
 class App extends Component {
   state = {
@@ -52,9 +48,12 @@ class App extends Component {
     // WHY YOU NO WORKEY !!!!
     // browserHistory.push('/');
   }
+  handleAddFolder() {
+    console.log('hi');
+  }
   render() {
     return (
-    
+      
       <NoteContext.Provider 
         value={{
           folders: this.state.folders,
@@ -65,7 +64,10 @@ class App extends Component {
 
         <Header />
         <Route exact path="/" component={ HomePage } />
-        <Route exact path="/folder/:folderId" component={ Folder } />
+          <Switch>
+            <Route exact path="/folder/add" component={ AddFolder } />
+            <Route exact path="/folder/:folderId" component={ Folder } />
+          </Switch>
         <Route exact path="/notes/:noteId" component={ Note } />
         
       </NoteContext.Provider>

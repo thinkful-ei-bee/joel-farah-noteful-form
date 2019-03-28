@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import NoteContext from '../../context/NoteContext';
 
 export default class FolderList extends Component {
+  static contextType = NoteContext;
 
   render() {
+    const { handleAddFolder } = this.context;
+
     if (this.props.goBack) {
       const folder = this.props.folders[0];
 
@@ -24,6 +28,7 @@ export default class FolderList extends Component {
     }
 
     return (
+      <>
         <ul className="folder-list">
           {this.props.folders.map(folder =>
             <li key={folder.id} className={folder.id === this.props.selected ? 'folder-selected' : ''}>
@@ -33,6 +38,10 @@ export default class FolderList extends Component {
             </li> 
           )}
         </ul>
+        <Link to={`/folder/add`}>
+          Add folder
+        </Link>
+      </>
     );
   }
 }
