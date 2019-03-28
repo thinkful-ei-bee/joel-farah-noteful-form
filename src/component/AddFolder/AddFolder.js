@@ -32,13 +32,13 @@ class AddFolder extends React.Component {
 
           <div className="right-content">
             <form onSubmit={(e) => handleAddFolder(e)}>
-              <label htmlFor="new-folder">
+              <label htmlFor="newFolder">
                 Folder name
                 {validationMessages.folderName && (
                   <p className="error">{validationMessages.folderName}</p>
                 )}
               </label>
-              <input id="new-folder" type="text" value={folderName}
+              <input id="newFolder" type="text" value={folderName}
                 onChange={e => this.handleVerifyFolderName(e.target.value)} />
               <button>Add</button>
             </form>

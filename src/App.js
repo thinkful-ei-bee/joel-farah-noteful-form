@@ -19,20 +19,24 @@ class App extends Component {
     this.fetchApi('folders', 'folders');
     this.fetchApi('notes', 'notes');
   }
-  fetchApi(endpoint, stateKey, method = 'GET') {
+  fetchApi(endpoint, stateKey, method = 'GET', apiBody ) {
     fetch(`http://localhost:9090/${endpoint}`, {
       method: method,
       headers: {
         'content-type': 'application/json'
       },
+      body: JSON.stringify(apiBody)
     })
     .then(response => response.json())
     .then(response => {
       //console.log(response);
-      if(method !== 'DELETE') {
+      if(method !== 'DELETE' && method !== 'POST') {
         this.setState( {[stateKey]: response} );
       } 
     })
+    
+    .catch(error => console.error('Error:', error));
+
   }
   handleDeleteNote(id) {
     // console.log(id);
@@ -49,8 +53,14 @@ class App extends Component {
     // browserHistory.push('/');
   }
   handleAddFolder(e) {
+    // get value for api
     e.preventDefault();
-    console.log('hi');
+    let body = { name: e.currentTarget.newFolder.value };
+    console.log(JSON.stringify(body));
+    // add to api
+    this.fetchApi('folders', '', 'POST', body);
+    // redirect
+
   }
   render() {
     return (
