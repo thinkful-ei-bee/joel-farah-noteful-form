@@ -5,7 +5,7 @@ import {withRouter} from 'react-router-dom';
 
 class AddFolder extends React.Component {
   static contextType = NoteContext;
-  state = {ssn: '', 
+  state = {
     folderValid: false, 
     validationMessages: {}
   };

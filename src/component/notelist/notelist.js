@@ -31,6 +31,9 @@ export default class NoteList extends Component {
             </li>  
           )}
         </ul>
+        <Link to={`/notes/add`}>
+          Add Note
+        </Link>
       </>
     );
   }

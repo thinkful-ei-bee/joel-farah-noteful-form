@@ -9,6 +9,7 @@ import HomePage from './component/homepage/homepage';
 import Folder from './component/Folder/Folder';
 import Note from './component/Note/Note';
 import AddFolder from './component/AddFolder/AddFolder'
+import AddNote from './component/AddNote/AddNote'
 
 class App extends Component {
   state = {
@@ -67,6 +68,12 @@ class App extends Component {
     // redirect
     this.props.history.push('/');
   }
+  handleAddNote(e) {
+    e.preventDefault();
+    let body = { name: e.currentTarget.newNote.value };
+    this.fetchApi('notes', 'notes', 'POST', body);
+    this.props.history.push('/');
+  }
   render() {
     return (
       
@@ -76,6 +83,7 @@ class App extends Component {
           notes: this.state.notes,
           handleDeleteNote: noteId => this.handleDeleteNote({noteId}),
           handleAddFolder: (e) => this.handleAddFolder(e),
+          handleAddNote: (e) => this.handleAddNote(e),
         }}
       >
 
@@ -85,7 +93,11 @@ class App extends Component {
             <Route exact path="/folder/add" component={ AddFolder } />
             <Route exact path="/folder/:folderId" component={ Folder } />
           </Switch>
-        <Route exact path="/notes/:noteId" component={ Note } />
+
+        <Switch>
+          <Route exact path="/notes/add" component={ AddNote } />
+          <Route exact path="/notes/:noteId" component={ Note } />
+        </Switch>
         
       </NoteContext.Provider>
       
