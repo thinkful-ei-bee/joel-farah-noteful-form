@@ -34,13 +34,11 @@ class App extends Component {
         this.setState( {[stateKey]: response} );
       } 
       if(method === 'POST') {
-        console.log(`stateKey: ${stateKey} id: ${response.id} name: ${apiBody.name}`);
-        
-        this.setState({ 
-          folders: { [stateKey]: response.id, name: apiBody.name },
-        })
-
-        this.setState( {[stateKey]: { id: response.id, name: apiBody.name}} );
+        //console.log(`stateKey: ${stateKey} id: ${response.id} name: ${apiBody.name}`);
+        let newFolder = { id: response.id, name: apiBody.name };
+        let newFolders = this.state.folders;
+        newFolders.push(newFolder);
+        this.setState({folders: newFolders})
       }
     })
     .catch(error => console.error('Error:', error));
