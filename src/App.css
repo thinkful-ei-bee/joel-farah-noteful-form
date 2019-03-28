@@ -1,0 +1,62 @@
+.App {
+  text-align: center;
+}
+
+header {
+  background-color: #282c34;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.main-layout {
+  display: flex;
+}
+
+.left-menu {
+  width: 10em;
+  height: 100vh;
+}
+
+.right-content {
+  /* background-color: salmon; */
+  flex-grow: 1;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+li {
+  color: black;
+}
+
+.folder-list li {
+  padding: 15px 0;
+  width: 10em;
+  border: 1px solid black;
+}
+
+.folder-selected {
+  background-color: yellow;
+}
+
+.notes-list {
+  margin-left: 5px;
+}
+
+.notes-list li {
+  width: 100%;
+  border: 1px black solid;
+  margin-bottom: 5px;
+  text-align: left;
+}
