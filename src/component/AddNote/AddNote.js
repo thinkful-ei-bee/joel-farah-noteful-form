@@ -25,26 +25,30 @@ class AddNote extends React.Component {
 
       return(
         <section className="main-layout">
-
+          
         <div className="left-menu">
-
+          <FolderList />
         </div>
 
         <div className="right-content">
         <form onSubmit={(e) => handleAddNote(e)}>
-          <label htmlFor="newNote">
-            Note
+
+          <label htmlFor="newNoteName">
+            Note name
             {validationMessages.noteName && (
               <p className="error">{validationMessages.noteName}</p>
             )}
           </label>
-          <input id="newNote" type="text" value={noteName}
+          <input id="newNoteName" type="text" value={noteName}
             onChange={e => this.handleVerifyNoteName(e.target.value)} />
+
           <select id="folderSelection">
           {folders.map((folder) => 
             <option value={folder.id}>{folder.name}</option>)} 
           </select>
+
           <button>Add</button>
+
         </form>
         </div>
 

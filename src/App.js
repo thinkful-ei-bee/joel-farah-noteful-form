@@ -76,7 +76,7 @@ class App extends Component {
   handleAddNote(e) {
     e.preventDefault();
     console.log(e.currentTarget.newNote);
-    let body = { name: e.currentTarget.newNote.value, folderId: e.currentTarget.folderSelection.value };
+    let body = { name: e.currentTarget.newNoteName.value, folderId: e.currentTarget.folderSelection.value };
     this.fetchApi('notes', 'notes', 'POST', body);
     this.props.history.push('/');
   }
