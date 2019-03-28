@@ -38,19 +38,13 @@ class App extends Component {
         //console.log(`stateKey: ${stateKey} id: ${response.id} name: ${apiBody.name}`);
         if(stateKey === 'folders') {
           let newFolder = { id: response.id, name: apiBody.name };
-          let newState = this.state.folders;
-          newState.push(newFolder);
-          this.setState({folders: newState})
+          this.setState({folders: [...this.state.folders, newFolder]})
         }
         if(stateKey === 'notes') {
-          // get folder id while mapping over folders for 
-          // folder list in component that passes this?
-          let newNote = { id: response.id, name: apiBody.name };
-          let newState = this.state.notes;
-          newState.push(newNote);
-          this.setState({notes: newState})
+          console.log(apiBody);
+          let newNote = { id: response.id, name: apiBody.name, folderId: apiBody.folderId };
+          this.setState({notes: [...this.state.notes, newNote]})
         }
-        
       }
     })
     .catch(error => console.error('Error:', error));
@@ -81,7 +75,8 @@ class App extends Component {
   }
   handleAddNote(e) {
     e.preventDefault();
-    let body = { name: e.currentTarget.newNote.value };
+    console.log(e.currentTarget.newNote);
+    let body = { name: e.currentTarget.newNote.value, folderId: e.currentTarget.folderSelection.value };
     this.fetchApi('notes', 'notes', 'POST', body);
     this.props.history.push('/');
   }

@@ -40,9 +40,9 @@ class AddNote extends React.Component {
           </label>
           <input id="newNote" type="text" value={noteName}
             onChange={e => this.handleVerifyNoteName(e.target.value)} />
-          <select>
+          <select id="folderSelection">
           {folders.map((folder) => 
-            <option value="folder">{folder.name}</option>)} 
+            <option value={folder.id}>{folder.name}</option>)} 
           </select>
           <button>Add</button>
         </form>
