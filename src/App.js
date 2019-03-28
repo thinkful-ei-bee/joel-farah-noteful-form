@@ -20,7 +20,7 @@ class App extends Component {
     this.fetchApi('folders', 'folders');
     this.fetchApi('notes', 'notes');
   }
-  fetchApi(endpoint, stateKey, method = 'GET', apiBody ) {
+  fetchApi(endpoint, stateKey, method = 'GET', apiBody, stateBody ) {
     fetch(`http://localhost:9090/${endpoint}`, {
       method: method,
       headers: {
@@ -36,10 +36,21 @@ class App extends Component {
       } 
       if(method === 'POST') {
         //console.log(`stateKey: ${stateKey} id: ${response.id} name: ${apiBody.name}`);
-        let newFolder = { id: response.id, name: apiBody.name };
-        let newFolders = this.state.folders;
-        newFolders.push(newFolder);
-        this.setState({folders: newFolders})
+        if(stateKey === 'folders') {
+          let newFolder = { id: response.id, name: apiBody.name };
+          let newState = this.state.folders;
+          newState.push(newFolder);
+          this.setState({folders: newState})
+        }
+        if(stateKey === 'notes') {
+          // get folder id while mapping over folders for 
+          // folder list in component that passes this?
+          let newNote = { id: response.id, name: stateBody.name, folderId: stateBody.folderId };
+          let newState = this.state.folders;
+          newState.push(newNote);
+          this.setState({folders: newState})
+        }
+        
       }
     })
     .catch(error => console.error('Error:', error));
@@ -62,7 +73,7 @@ class App extends Component {
     // get value for api
     e.preventDefault();
     let body = { name: e.currentTarget.newFolder.value };
-    console.log(JSON.stringify(body));
+    //console.log(JSON.stringify(body));
     // add to api
     this.fetchApi('folders', 'folders', 'POST', body);
     // redirect
