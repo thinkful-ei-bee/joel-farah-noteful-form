@@ -8,8 +8,9 @@ import Header from './component/header/header';
 import HomePage from './component/homepage/homepage';
 import Folder from './component/Folder/Folder';
 import Note from './component/Note/Note';
-import AddFolder from './component/AddFolder/AddFolder'
-import AddNote from './component/AddNote/AddNote'
+import AddFolder from './component/AddFolder/AddFolder';
+import AddNote from './component/AddNote/AddNote';
+import ErrorPage from './component/ErrorBoundries/ErrorPage';
 
 class App extends Component {
   state = {
@@ -42,7 +43,7 @@ class App extends Component {
         }
         if(stateKey === 'notes') {
           console.log(apiBody);
-          let newNote = { id: response.id, name: apiBody.name, folderId: apiBody.folderId };
+          let newNote = { id: response.id, name: apiBody.name, content: apiBody.content, folderId: apiBody.folderId };
           this.setState({notes: [...this.state.notes, newNote]})
         }
       }
@@ -76,37 +77,41 @@ class App extends Component {
   handleAddNote(e) {
     e.preventDefault();
     console.log(e.currentTarget.newNote);
-    let body = { name: e.currentTarget.newNoteName.value, folderId: e.currentTarget.folderSelection.value };
+    const noteName = e.currentTarget.newNoteName.value;
+    const noteText = e.currentTarget.newNoteText.value
+    const noteFolder = e.currentTarget.folderSelection.value;
+    let body = { name: noteName, content: noteText, folderId: noteFolder };
     this.fetchApi('notes', 'notes', 'POST', body);
     this.props.history.push('/');
   }
   render() {
     return (
       
-      <NoteContext.Provider 
-        value={{
-          folders: this.state.folders,
-          notes: this.state.notes,
-          handleDeleteNote: noteId => this.handleDeleteNote({noteId}),
-          handleAddFolder: (e) => this.handleAddFolder(e),
-          handleAddNote: (e) => this.handleAddNote(e),
-        }}
-      >
+      <ErrorPage>
+        <NoteContext.Provider 
+          value={{
+            folders: this.state.folders,
+            notes: this.state.notes,
+            handleDeleteNote: noteId => this.handleDeleteNote({noteId}),
+            handleAddFolder: (e) => this.handleAddFolder(e),
+            handleAddNote: (e) => this.handleAddNote(e),
+          }}
+        >
 
-        <Header />
-        <Route exact path="/" component={ HomePage } />
+          <Header />
+          <Route exact path="/" component={ HomePage } />
+            <Switch>
+              <Route exact path="/folder/add" component={ AddFolder } />
+              <Route exact path="/folder/:folderId" component={ Folder } />
+            </Switch>
+
           <Switch>
-            <Route exact path="/folder/add" component={ AddFolder } />
-            <Route exact path="/folder/:folderId" component={ Folder } />
+            <Route exact path="/notes/add" component={ AddNote } />
+            <Route exact path="/notes/:noteId" component={ Note } />
           </Switch>
-
-        <Switch>
-          <Route exact path="/notes/add" component={ AddNote } />
-          <Route exact path="/notes/:noteId" component={ Note } />
-        </Switch>
-        
-      </NoteContext.Provider>
-      
+          
+        </NoteContext.Provider>
+      </ErrorPage>
     );
   }
 }

@@ -19,6 +19,7 @@ class AddNote extends React.Component {
     }
     this.setState({validationMessages, noteValid});
   }
+  
   render() {
     const { noteName, validationMessages } = this.state;
     const { folders, handleAddNote } = this.context;
@@ -34,19 +35,31 @@ class AddNote extends React.Component {
         <form onSubmit={(e) => handleAddNote(e)}>
 
           <label htmlFor="newNoteName">
-            Note name
+            Note name: 
             {validationMessages.noteName && (
               <p className="error">{validationMessages.noteName}</p>
             )}
           </label>
           <input id="newNoteName" type="text" value={noteName}
             onChange={e => this.handleVerifyNoteName(e.target.value)} />
+          <br />
 
+          <label htmlFor="newNoteText">
+            Note text: 
+            {validationMessages.noteName && (
+              <p className="error">{validationMessages.noteName}</p>
+            )}
+          </label>
+          <input id="newNoteText" type="text" value={noteName}
+            onChange={e => this.handleVerifyNoteText(e.target.value)} />
+          <br />
+          
+          Add to folder: 
           <select id="folderSelection">
           {folders.map((folder) => 
             <option value={folder.id}>{folder.name}</option>)} 
           </select>
-
+          
           <button>Add</button>
 
         </form>
