@@ -20,7 +20,7 @@ class App extends Component {
     this.fetchApi('folders', 'folders');
     this.fetchApi('notes', 'notes');
   }
-  fetchApi(endpoint, stateKey, method = 'GET', apiBody, stateBody ) {
+  fetchApi(endpoint, stateKey, method = 'GET', apiBody ) {
     fetch(`http://localhost:9090/${endpoint}`, {
       method: method,
       headers: {
@@ -45,10 +45,10 @@ class App extends Component {
         if(stateKey === 'notes') {
           // get folder id while mapping over folders for 
           // folder list in component that passes this?
-          let newNote = { id: response.id, name: stateBody.name, folderId: stateBody.folderId };
-          let newState = this.state.folders;
+          let newNote = { id: response.id, name: apiBody.name };
+          let newState = this.state.notes;
           newState.push(newNote);
-          this.setState({folders: newState})
+          this.setState({notes: newState})
         }
         
       }
@@ -58,7 +58,7 @@ class App extends Component {
   handleDeleteNote(id) {
     // console.log(id);
     // delete noteId from api via getStuff()
-    this.fetchApi(`notes/${id.noteId}`, 'notes', 'DELETE');
+    this.fetchApi(`notes/${id.noteId}`, 'notes', 'DELETE', );
 
     // delete noteId from state, this calls re-render
     let filtered = this.state.notes.filter(note => note.id !== id.noteId)
