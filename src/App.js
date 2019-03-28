@@ -48,7 +48,8 @@ class App extends Component {
     // WHY YOU NO WORKEY !!!!
     // browserHistory.push('/');
   }
-  handleAddFolder() {
+  handleAddFolder(e) {
+    e.preventDefault();
     console.log('hi');
   }
   render() {
@@ -59,6 +60,7 @@ class App extends Component {
           folders: this.state.folders,
           notes: this.state.notes,
           handleDeleteNote: noteId => this.handleDeleteNote({noteId}),
+          handleAddFolder: (e) => this.handleAddFolder(e),
         }}
       >
 

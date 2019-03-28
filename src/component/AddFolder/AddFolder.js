@@ -31,8 +31,7 @@ class AddFolder extends React.Component {
           </div>
 
           <div className="right-content">
-            {/* <form onSubmit={this.handleAddFolder(this.state.folderName)}> */}
-            <form>
+            <form onSubmit={(e) => handleAddFolder(e)}>
               <label htmlFor="new-folder">
                 Folder name
                 {validationMessages.folderName && (
