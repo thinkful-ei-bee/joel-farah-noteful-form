@@ -7,14 +7,14 @@ export default class NoteList extends Component {
 
   render() {
 
-    const { folders, notes, handleDeleteNote } = this.context;
+    const { notes, handleDeleteNote } = this.context;
     
     return (
 
       <>
         <ul className="notes-list">
-          {notes.map(note =>
-            <li key={note.id}>
+          {notes.map((note, index) =>
+            <li key={index}>
               <Link to={`/notes/${note.id}`}>
                 {note.name}
               </Link>

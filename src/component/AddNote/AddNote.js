@@ -1,7 +1,6 @@
 import React from 'react';
 import NoteContext from '../../context/NoteContext';
 import FolderList from '../folderlist/folderlist';
-import {withRouter} from 'react-router-dom';
 
 class AddNote extends React.Component {
   static contextType = NoteContext;
@@ -19,9 +18,15 @@ class AddNote extends React.Component {
     }
     this.setState({validationMessages, noteValid});
   }
+  handleVerifyNoteText = noteText => {
+    const validationMessages = {...this.state.validationMessages};
+    if(noteText.length <= 1) {
+      let noteValid = true;
+    }
+  }
   
   render() {
-    const { noteName, validationMessages } = this.state;
+    const { noteName, noteText, validationMessages } = this.state;
     const { folders, handleAddNote } = this.context;
 
       return(
@@ -50,14 +55,14 @@ class AddNote extends React.Component {
               <p className="error">{validationMessages.noteName}</p>
             )}
           </label>
-          <input id="newNoteText" type="text" value={noteName}
+          <input id="newNoteText" type="text" value={noteText}
             onChange={e => this.handleVerifyNoteText(e.target.value)} />
           <br />
           
           Add to folder: 
           <select id="folderSelection">
-          {folders.map((folder) => 
-            <option value={folder.id}>{folder.name}</option>)} 
+          {folders.map((folder, index) => 
+            <option key={index} value={folder.id}>{folder.name}</option>)} 
           </select>
           
           <button>Add</button>

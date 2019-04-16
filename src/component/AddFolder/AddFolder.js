@@ -21,7 +21,7 @@ class AddFolder extends React.Component {
   }
   render() {
     const { folderName, validationMessages } = this.state;
-    const { folders, handleAddFolder } = this.context;
+    const { handleAddFolder } = this.context;
     return (
 
         <section className="main-layout">

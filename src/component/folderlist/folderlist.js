@@ -6,7 +6,7 @@ export default class FolderList extends Component {
   static contextType = NoteContext;
 
   render() {
-    const { folders, handleAddFolder } = this.context;
+    const { folders } = this.context;
     //console.log('FOLDERS:::: ', folders);
     if (this.props.goBack) {
       const folder = this.props.folders[0];
@@ -14,7 +14,7 @@ export default class FolderList extends Component {
       return (
         <>
           <ul className="folder-list folder-selected">
-            <li key={folder.id}>
+           <li key={folder.id}>
               <Link to={`/folder/${folder.id}`}>
                 Go Back
               </Link>
@@ -30,8 +30,8 @@ export default class FolderList extends Component {
     return (
       <>
         <ul className="folder-list">
-          {folders.map(folder =>
-            <li key={folder.id} className={folder.id === this.props.selected ? 'folder-selected' : ''}>
+          {folders.map((folder, index) =>
+            <li key={index} className={folder.id === this.props.selected ? 'folder-selected' : ''}>
               <Link to={`/folder/${folder.id}`}>
                 {this.props.goBack ? 'Go Back' : folder.name}
               </Link>

@@ -22,7 +22,7 @@ class App extends Component {
     this.fetchApi('notes', 'notes');
   }
   fetchApi(endpoint, stateKey, method = 'GET', apiBody ) {
-    fetch(`http://localhost:9090/${endpoint}`, {
+    fetch(`http://localhost:8000/api/${endpoint}`, {
       method: method,
       headers: {
         'content-type': 'application/json'
@@ -31,12 +31,10 @@ class App extends Component {
     })
     .then(response => response.json())
     .then(response => {
-      //console.log(response);
       if(method !== 'DELETE' && method !== 'POST') {
         this.setState( {[stateKey]: response} );
       } 
       if(method === 'POST') {
-        //console.log(`stateKey: ${stateKey} id: ${response.id} name: ${apiBody.name}`);
         if(stateKey === 'folders') {
           let newFolder = { id: response.id, name: apiBody.name };
           this.setState({folders: [...this.state.folders, newFolder]})
@@ -45,6 +43,7 @@ class App extends Component {
           console.log(apiBody);
           let newNote = { id: response.id, name: apiBody.name, content: apiBody.content, folderId: apiBody.folderId };
           this.setState({notes: [...this.state.notes, newNote]})
+          console.log(this.state.notes)
         }
       }
     })
@@ -76,7 +75,6 @@ class App extends Component {
   }
   handleAddNote(e) {
     e.preventDefault();
-    console.log(e.currentTarget.newNote);
     const noteName = e.currentTarget.newNoteName.value;
     const noteText = e.currentTarget.newNoteText.value
     const noteFolder = e.currentTarget.folderSelection.value;
@@ -85,8 +83,10 @@ class App extends Component {
     this.props.history.push('/');
   }
   render() {
+    //const notesList = (!this.state.notes) ? [] : this.state.notes
+    // console.log(notesList.map(note => note.content))
+
     return (
-      
       <ErrorPage>
         <NoteContext.Provider 
           value={{
