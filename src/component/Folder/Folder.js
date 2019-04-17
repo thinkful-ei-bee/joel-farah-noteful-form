@@ -10,9 +10,14 @@ class Folder extends React.Component {
   render() {
 
     const { folders, notes } = this.context;
-
     const folderId = this.props.match.params.folderId;
-    
+    console.log(folderId)
+   
+    const notesId = notes.map(note => {
+      if (note.folder_id == folderId){
+         return note.folder_id
+      }}
+    )
     return (
       
       <main role="main" className="App">
@@ -21,7 +26,7 @@ class Folder extends React.Component {
         <FolderList folders={folders} selected={folderId}/>
       </div>
       <div className="right-content">
-        <NoteList notes={notes.filter(note => note.folderId === folderId)} />
+        <NoteList filteredNotes={notes.filter(note => note.folder_id === folderId)} />
       </div>
       </section>
       </main>

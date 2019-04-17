@@ -29,48 +29,48 @@ class App extends Component {
       },
       body: JSON.stringify(apiBody)
     })
-    .then(response => response.json())
+    .then(response => {
+      // was getting an unexpected end of json error, so I added this conditional
+      if (method === 'DELETE') {
+        return ; // if method = delete, return nothing
+      } else {
+        return response.json() // if method !== delete, return json response
+      }
+    }) 
     .then(response => {
       if(method !== 'DELETE' && method !== 'POST') {
         this.setState( {[stateKey]: response} );
       } 
       if(method === 'POST') {
         if(stateKey === 'folders') {
-          let newFolder = { id: response.id, name: apiBody.name };
+          let newFolder = { id: response.id, folder_name: apiBody.folder_name };
           this.setState({folders: [...this.state.folders, newFolder]})
         }
         if(stateKey === 'notes') {
-          console.log(apiBody);
-          let newNote = { id: response.id, name: apiBody.name, content: apiBody.content, folderId: apiBody.folderId };
-          this.setState({notes: [...this.state.notes, newNote]})
-          console.log(this.state.notes)
+          let newNote = { id: response.id, note_name: apiBody.note_name, modified: response.modified, content: apiBody.content, folderId: apiBody.folder_id };
+          this.setState({
+            notes: [...this.state.notes, newNote],
+            folders: [...this.state.folders],
+          })
         }
       }
     })
     .catch(error => console.error('Error:', error));
   }
   handleDeleteNote(id) {
-    // console.log(id);
-    // delete noteId from api via getStuff()
     this.fetchApi(`notes/${id.noteId}`, 'notes', 'DELETE', );
 
-    // delete noteId from state, this calls re-render
     let filtered = this.state.notes.filter(note => note.id !== id.noteId)
-    // console.log(filtered);
-    this.setState({ notes: filtered });
+    this.setState({ 
+      notes: filtered,
+      folders: [...this.state.folders]
+    });
 
-    // re-route here ..
-    // WHY YOU NO WORKEY !!!!
-    // browserHistory.push('/');
   }
   handleAddFolder(e) {
-    // get value for api
     e.preventDefault();
-    let body = { name: e.currentTarget.newFolder.value };
-    //console.log(JSON.stringify(body));
-    // add to api
+    let body = { folder_name: e.currentTarget.newFolder.value };
     this.fetchApi('folders', 'folders', 'POST', body);
-    // redirect
     this.props.history.push('/');
   }
   handleAddNote(e) {
@@ -78,14 +78,12 @@ class App extends Component {
     const noteName = e.currentTarget.newNoteName.value;
     const noteText = e.currentTarget.newNoteText.value
     const noteFolder = e.currentTarget.folderSelection.value;
-    let body = { name: noteName, content: noteText, folderId: noteFolder };
+    const noteModified = new Date();
+    let body = { note_name: noteName, modified: noteModified, content: noteText, folder_id: noteFolder };
     this.fetchApi('notes', 'notes', 'POST', body);
     this.props.history.push('/');
   }
   render() {
-    //const notesList = (!this.state.notes) ? [] : this.state.notes
-    // console.log(notesList.map(note => note.content))
-
     return (
       <ErrorPage>
         <NoteContext.Provider 

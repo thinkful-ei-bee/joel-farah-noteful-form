@@ -6,17 +6,20 @@ export default class NoteList extends Component {
   static contextType = NoteContext;
 
   render() {
-
     const { notes, handleDeleteNote } = this.context;
+
+    const filteredNotes = this.props.filteredNotes;
+    const notesList = (!filteredNotes) ? [] : filteredNotes;
+    console.log(notes.map(note => note.folder_id))
+  
     
     return (
-
       <>
         <ul className="notes-list">
           {notes.map((note, index) =>
             <li key={index}>
               <Link to={`/notes/${note.id}`}>
-                {note.name}
+                {note.note_name}
               </Link>
               <p>Date modified: {note.modified}</p>
               <input 

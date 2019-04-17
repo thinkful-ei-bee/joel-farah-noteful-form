@@ -19,7 +19,6 @@ class AddNote extends React.Component {
     this.setState({validationMessages, noteValid});
   }
   handleVerifyNoteText = noteText => {
-    const validationMessages = {...this.state.validationMessages};
     if(noteText.length <= 1) {
       let noteValid = true;
     }
@@ -62,7 +61,7 @@ class AddNote extends React.Component {
           Add to folder: 
           <select id="folderSelection">
           {folders.map((folder, index) => 
-            <option key={index} value={folder.id}>{folder.name}</option>)} 
+            <option key={index} value={folder.id}>{folder.folder_name}</option>)} 
           </select>
           
           <button>Add</button>

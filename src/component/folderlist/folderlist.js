@@ -7,10 +7,9 @@ export default class FolderList extends Component {
 
   render() {
     const { folders } = this.context;
-    //console.log('FOLDERS:::: ', folders);
     if (this.props.goBack) {
       const folder = this.props.folders[0];
-
+      
       return (
         <>
           <ul className="folder-list folder-selected">
@@ -21,7 +20,7 @@ export default class FolderList extends Component {
            </li>
           </ul>
           <p>
-           {folder.name}
+           {folder.folder_name}
           </p>
         </>
       );
@@ -33,7 +32,7 @@ export default class FolderList extends Component {
           {folders.map((folder, index) =>
             <li key={index} className={folder.id === this.props.selected ? 'folder-selected' : ''}>
               <Link to={`/folder/${folder.id}`}>
-                {this.props.goBack ? 'Go Back' : folder.name}
+                {this.props.goBack ? 'Go Back' : folder.folder_name}
               </Link>
             </li> 
           )}
