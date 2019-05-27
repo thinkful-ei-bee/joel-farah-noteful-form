@@ -20,7 +20,7 @@ class AddNote extends React.Component {
   }
   handleVerifyNoteText = noteText => {
     if(noteText.length <= 1) {
-      let noteValid = true;
+      this.setState({ noteValid: true })
     }
   }
   

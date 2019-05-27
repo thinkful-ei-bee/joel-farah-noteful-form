@@ -8,35 +8,30 @@ class Note extends React.Component {
   render() {
     const { notes, handleDeleteNote } = this.context;
     const noteId = this.props.match.params.noteId;
-    console.log(noteId)
-
-
-    const fullNote = notes.map((note, index) => 
-      <li key={index}>
-        <h3>{note.note_name}</h3>
-        <p>{note.content}</p>
-        <p>Date modified: {note.modified}</p>
-      </li>
-      )
-
+    const filteredNotes = notes.filter(note => note.id.toString() === noteId)
+    
     return (
       <main role="main" className="App">
-      <section className="main-layout">
-      <div className="left-menu">
-      </div>
-      <div className="right-content">
-        
-        <ul className="notes-list">
-            {fullNote}
-              <input 
-                className="favorite styled"
-                type="button"
-                value="Delete note" 
-                onClick={() => handleDeleteNote(noteId)}  
-              /> 
-        </ul>
-      </div>
-      </section>
+        <section className="main-layout">
+          <div className="right-content">
+            <ul className="notes-list">
+              {filteredNotes.map((note, index) => 
+                <li key={index}>
+                  <h3>{note.note_name}</h3>
+                  <p>{note.content}</p>
+                  <p>Date modified: {note.modified}</p>
+                <input 
+                  className="favorite styled"
+                  type="button"
+                  value="Delete note" 
+                  onClick={() => { handleDeleteNote(note.id)
+                }}  
+                  /> 
+                </li> 
+                )}
+            </ul>
+          </div>
+        </section>
       </main>
     )
   }

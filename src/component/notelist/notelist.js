@@ -5,35 +5,39 @@ import NoteContext from '../../context/NoteContext';
 export default class NoteList extends Component {
   static contextType = NoteContext;
 
-  render() {
+  renderNote(){
     const { notes, handleDeleteNote } = this.context;
-
     const filteredNotes = this.props.filteredNotes;
-    const notesList = (!filteredNotes) ? [] : filteredNotes;
-    console.log(notes.map(note => note.folder_id))
-  
+    const filteredNotesList = (!filteredNotes) ? notes : filteredNotes;
     
+    return <>
+      <div className='NoteList'>
+        <ul className="notes-list">
+            {filteredNotesList.map((note, index) =>
+              <li key={index}>
+                <Link to={`/notes/${note.id}`}>
+                  {note.note_name}
+                </Link>
+                <p>Date modified: {note.modified}</p>
+                <input 
+                  className="favorite styled"
+                  type="button"
+                  value="Delete note" 
+                  onClick={() => {
+                    handleDeleteNote(note.id)
+                  }}
+                /> 
+              </li>  
+            )}
+          </ul>
+      </div>
+    </>
+  }
+
+  render() {
     return (
       <>
-        <ul className="notes-list">
-          {notes.map((note, index) =>
-            <li key={index}>
-              <Link to={`/notes/${note.id}`}>
-                {note.note_name}
-              </Link>
-              <p>Date modified: {note.modified}</p>
-              <input 
-                className="favorite styled"
-                type="button"
-                value="Delete note" 
-                onClick={() => {
-                  handleDeleteNote(note.id)
-                  //this.props.history.push('/');
-                }}
-              /> 
-            </li>  
-          )}
-        </ul>
+        {this.renderNote()}
         <Link to={`/notes/add`}>
           Add Note
         </Link>

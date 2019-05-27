@@ -42,5 +42,4 @@ export default class FolderList extends Component {
         </Link>
       </>
     );
-  }
-}
+  } }

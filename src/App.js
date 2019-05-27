@@ -11,6 +11,7 @@ import Note from './component/Note/Note';
 import AddFolder from './component/AddFolder/AddFolder';
 import AddNote from './component/AddNote/AddNote';
 import ErrorPage from './component/ErrorBoundries/ErrorPage';
+import config from './config'
 
 class App extends Component {
   state = {
@@ -22,7 +23,8 @@ class App extends Component {
     this.fetchApi('notes', 'notes');
   }
   fetchApi(endpoint, stateKey, method = 'GET', apiBody ) {
-    fetch(`http://localhost:8000/api/${endpoint}`, {
+    let url = config.API_ENDPOINT + `/${endpoint}`
+    fetch(url, {
       method: method,
       headers: {
         'content-type': 'application/json'
@@ -30,7 +32,6 @@ class App extends Component {
       body: JSON.stringify(apiBody)
     })
     .then(response => {
-      // was getting an unexpected end of json error, so I added this conditional
       if (method === 'DELETE') {
         return ; // if method = delete, return nothing
       } else {
@@ -47,7 +48,7 @@ class App extends Component {
           this.setState({folders: [...this.state.folders, newFolder]})
         }
         if(stateKey === 'notes') {
-          let newNote = { id: response.id, note_name: apiBody.note_name, modified: response.modified, content: apiBody.content, folderId: apiBody.folder_id };
+          let newNote = { id: response.id, note_name: apiBody.note_name, modified: response.modified, content: apiBody.content, folder_id: apiBody.folder_id };
           this.setState({
             notes: [...this.state.notes, newNote],
             folders: [...this.state.folders],
@@ -59,14 +60,13 @@ class App extends Component {
   }
   handleDeleteNote(id) {
     this.fetchApi(`notes/${id.noteId}`, 'notes', 'DELETE', );
-
     let filtered = this.state.notes.filter(note => note.id !== id.noteId)
     this.setState({ 
       notes: filtered,
       folders: [...this.state.folders]
-    });
-
+    },() => {return this.props.history.push('/')} )
   }
+
   handleAddFolder(e) {
     e.preventDefault();
     let body = { folder_name: e.currentTarget.newFolder.value };
